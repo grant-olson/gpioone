@@ -1,7 +1,15 @@
 import RPi.GPIO as GPIO
 from time import sleep
+import math
 
+"""
+Control an Rgb Led off of three specified GPIO pins.
 
+You can either toggle the individual leds on and off, or set
+intensity as a percentage between 0 and 100.
+
+Don't forget to include resistors when wiring it up!
+"""
 class RgbLed:
     def __init__(self, red_pin, green_pin, blue_pin):
         self.red_pin = red_pin
@@ -16,6 +24,8 @@ class RgbLed:
         self.green_pwm = GPIO.PWM(self.green_pin, 100)
         self.blue_pwm = GPIO.PWM(self.blue_pin, 100)
 
+        self.cycle_position = 0
+        
     # set_rgb_state simply turn leds on and off
     def set_state(self, pin, state):
         GPIO.output(pin, state)
@@ -31,13 +41,13 @@ class RgbLed:
 
     # set_rgb_intensity sets percentage
     def set_red_intensity(self, intensity):
-        self.red_pwm.changeDutyCycle(intensity)
+        self.red_pwm.ChangeDutyCycle(intensity)
 
     def set_green_intensity(self, intensity):
-        self.green_pwm.changeDutyCycle(intensity)
+        self.green_pwm.ChangeDutyCycle(intensity)
         
     def set_blue_intensity(self, intensity):
-        self.blue_pwm.changeDutyCycle(intensity)
+        self.blue_pwm.ChangeDutyCycle(intensity)
 
     def start_intensity_mode(self):
         self.red_pwm.start(0)
@@ -48,6 +58,25 @@ class RgbLed:
         self.red_pwm.stop()
         self.blue_pwm.stop()
         self.green_pwm.stop()
+
+    def cycle_position_as_percent(self,offset=0):
+        sine = math.sin(float(self.cycle_position + offset) * math.pi / 180.0)
+        percent = (sine * 50) + 50
+        return percent
+
+    """
+    Create a pleasant color cycle on the LED. Intended to show that 
+    an app is still running in a headless environment, where it would
+    be called once every round of the main working loop.
+    """
+    def cycle_intensity(self):
+        self.cycle_position += 1
+        if self.cycle_position >= 360:
+            self.cycle_position = 0
+
+        self.set_red_intensity(self.cycle_position_as_percent())
+        self.set_blue_intensity(self.cycle_position_as_percent(45))
+        self.set_green_intensity(self.cycle_position_as_percent(90))
         
 if __name__ == "__main__":
     GPIO.setmode(GPIO.BCM)
@@ -73,54 +102,16 @@ if __name__ == "__main__":
     rgb_led.set_red_state(GPIO.LOW)
 
     rgb_led.start_intensity_mode()
-    puts "Starting intensity mode"
+    print("Starting intensity cycle mode. Press Ctrl-C to stop...")
     sleep(1)
-    rgb_led.set_red_intensity(50)
-    rgb_led.set_green_intensity(25)
-    rgb_led.set_blue_intensity(75)
-    sleep(2)
-    
+
+    try:
+        while True:
+            rgb_led.cycle_intensity()
+            sleep(0.01)
+    except KeyboardInterrupt:
+        print("Stopping and cleaning up.")
+
     rgb_led.stop_intensity_mode()
-#print("TURNING BLUE ON 50%")
-#GPIO.PWM(blue, 50)
 
-#blue_pwm = GPIO.PWM(blue, 100)
-#red_pwm = GPIO.PWM(red, 100)
-#green_pwm = GPIO.PWM(green, 100)
-
-#blue_pwm.start(100)
-#green_pwm.start(100)
-#red_pwm.start(100)
-
-#sleep(1)
-#try:
-#    while True:
-#        for x in range(0,100):
-#            blue_pwm.ChangeDutyCycle(x)
-#            red_pwm.ChangeDutyCycle(100-x)
-#            green_pwm.ChangeDutyCycle(x)
-#            sleep(0.010)
-#        for x in range(100,0,-1):
-#            blue_pwm.ChangeDutyCycle(x)
-#            red_pwm.ChangeDutyCycle(100-x)
-#            green_pwm.ChangeDutyCycle(x)
-#            sleep(0.010)
-#except KeyboardInterrupt:
-#    print("CAUGHT KEYBOARD INTERRUPT")
-#sleep(1)
-
-# CLEANUP
-
-#blue_pwm.stop()
-#red_pwm.stop()
-#green_pwm.stop()
-
-#blue_pwm.start(50)
-#sleep(1)
-#blue_pwm.start(25)
-#sleep(1)
-
-#print("CLEANING UP")
-#GPIO.output(blue, GPIO.LOW)
-#GPIO.output(green, GPIO.LOW)
-#GPIO.output(red, GPIO.LOW)
+    GPIO.cleanup()
