@@ -12,7 +12,7 @@ class RgbLed:
         GPIO.setup(self.green_pin, GPIO.OUT, initial=GPIO.LOW)
         GPIO.setup(self.blue_pin, GPIO.OUT, initial=GPIO.LOW)
 
-    def set_state(pin, state):
+    def set_state(self, pin, state):
         GPIO.output(pin, state)
         
     def set_red_state(self, state):
@@ -41,11 +41,11 @@ if __name__ == "__main__":
     sleep(1)
 
     print("TURNING RED ON")
-    GPIO.output(green, GPIO.LOW)
-    GPIO.output(red, GPIO.HIGH)
+    rgb_led.set_green_state(GPIO.LOW)
+    rgb_led.set_red_state(GPIO.HIGH)
     sleep(1)
 
-    GPIO.output(red, GPIO.LOW)
+    rgb_led.set_red_state(GPIO.LOW)
     
 #print("TURNING BLUE ON 50%")
 #GPIO.PWM(blue, 50)
@@ -77,16 +77,16 @@ if __name__ == "__main__":
 
 # CLEANUP
 
-blue_pwm.stop()
-red_pwm.stop()
-green_pwm.stop()
+#blue_pwm.stop()
+#red_pwm.stop()
+#green_pwm.stop()
 
 #blue_pwm.start(50)
 #sleep(1)
 #blue_pwm.start(25)
 #sleep(1)
 
-print("CLEANING UP")
-GPIO.output(blue, GPIO.LOW)
-GPIO.output(green, GPIO.LOW)
-GPIO.output(red, GPIO.LOW)
+#print("CLEANING UP")
+#GPIO.output(blue, GPIO.LOW)
+#GPIO.output(green, GPIO.LOW)
+#GPIO.output(red, GPIO.LOW)
