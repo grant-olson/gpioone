@@ -12,6 +12,11 @@ class RgbLed:
         GPIO.setup(self.green_pin, GPIO.OUT, initial=GPIO.LOW)
         GPIO.setup(self.blue_pin, GPIO.OUT, initial=GPIO.LOW)
 
+        self.red_pwm = GPIO.PWM(self.red_pin, 100)
+        self.green_pwm = GPIO.PWM(self.green_pin, 100)
+        self.blue_pwm = GPIO.PWM(self.blue_pin, 100)
+
+    # set_rgb_state simply turn leds on and off
     def set_state(self, pin, state):
         GPIO.output(pin, state)
         
@@ -24,6 +29,26 @@ class RgbLed:
     def set_blue_state(self, state):
         self.set_state(self.blue_pin, state)
 
+    # set_rgb_intensity sets percentage
+    def set_red_intensity(self, intensity):
+        self.red_pwm.changeDutyCycle(intensity)
+
+    def set_green_intensity(self, intensity):
+        self.green_pwm.changeDutyCycle(intensity)
+        
+    def set_blue_intensity(self, intensity):
+        self.blue_pwm.changeDutyCycle(intensity)
+
+    def start_intensity_mode(self):
+        self.red_pwm.start(0)
+        self.blue_pwm.start(0)
+        self.blue_pwm.start(0)
+
+    def stop_intensity_mode(self):
+        self.red_pwm.stop()
+        self.blue_pwm.stop()
+        self.green_pwm.stop()
+        
 if __name__ == "__main__":
     GPIO.setmode(GPIO.BCM)
     rgb_led = RgbLed(4,5,6)
@@ -46,7 +71,16 @@ if __name__ == "__main__":
     sleep(1)
 
     rgb_led.set_red_state(GPIO.LOW)
+
+    rgb_led.start_intensity_mode()
+    puts "Starting intensity mode"
+    sleep(1)
+    rgb_led.set_red_intensity(50)
+    rgb_led.set_green_intensity(25)
+    rgb_led.set_blue_intensity(75)
+    sleep(2)
     
+    rgb_led.stop_intensity_mode()
 #print("TURNING BLUE ON 50%")
 #GPIO.PWM(blue, 50)
 
