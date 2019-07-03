@@ -5,7 +5,11 @@ from time import sleep
 
 GPIO.setmode(GPIO.BCM)
 
-ultrasonic = DistanceSensor(echo=21,trigger=20,max_distance=2)
+near_threshold = 1.0
+medium_threshold = 3.0
+max_distance = 10.0
+
+ultrasonic = DistanceSensor(echo=21,trigger=20,max_distance=10.0)
 
 led = rgb_led.RgbLed(4,5,6)
 
@@ -35,12 +39,12 @@ while True:
     green = 0
     blue = 0
     
-    if distance <= 0.5:
-        red = get_inverse_percent(0.0, 0.5, distance)
-    elif distance <= 1.0:
-        blue = get_inverse_percent(0.5, 1.0, distance)
+    if distance <= near_threshold:
+        red = get_inverse_percent(0.0, near_threshold, distance)
+    elif distance <= medium_threshold:
+        blue = get_inverse_percent(near_threshold, medium_threshold, distance)
     else:
-        green = get_inverse_percent(1.0, 2.0, distance)
+        green = get_inverse_percent(medium_threshold, max_distance, distance)
     led.set_red_intensity(red)
     led.set_green_intensity(green)
     led.set_blue_intensity(blue)
