@@ -59,16 +59,15 @@ if __name__ == "__main__":
     # Example is hooked up to 8 LEDs with 220 Ohm resistors between
     # anode and Shift Register pins.
 
+    sleep_time = 0.025
     # Count to 255 displaying binary
     for i in range(0,256):
-        print i
         shift_register.number(i)
-        sleep(0.1)
+        sleep(sleep_time)
     
     # As a demonstration of actual shifting, we only load one bit at a time
     # and trigger the latch. One out of every seven bits is high, so
     # it looks like the light moves down the line of LEDs
-    sleep_time = 0.025
     while 1:
         shift_register.high()
         shift_register.clock_tick()
