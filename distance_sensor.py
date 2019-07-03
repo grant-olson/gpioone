@@ -1,3 +1,15 @@
+"""
+Create a primitive range finder. We use a ultrasonic distance sensor to
+find distance and then use a RGB LED to show approximately how close things 
+are:
+
+Bright Red - very close
+Not so Bright Red - close
+Bright Blue - Medium Close
+Bright Green - Far
+
+Brightness dims for each category as we get further away.
+"""
 import RPi.GPIO as GPIO
 from gpiozero import DistanceSensor
 import rgb_led
@@ -9,9 +21,17 @@ near_threshold = 1.0
 medium_threshold = 3.0
 max_distance = 10.0
 
-ultrasonic = DistanceSensor(echo=21,trigger=20,max_distance=10.0)
 
-led = rgb_led.RgbLed(4,5,6)
+r_io_pin = 4
+g_io_pin = 5
+b_io_pin = 6
+
+ultrasonic_echo = 21
+ultrasonic_trigger = 20
+
+ultrasonic = DistanceSensor(echo=ultrasonic_echo,trigger=ultrasonic_trigger,max_distance=10.0)
+
+led = rgb_led.RgbLed(r_io_pin,g_io_pin,b_io_pin)
 
 led.set_green_state(GPIO.HIGH)
 sleep(2)
