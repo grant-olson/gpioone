@@ -22,34 +22,32 @@ blue = 0
 
 count = 0
 
+def get_inverse_percent(min, max, actual):
+    ip =  100.0 - ((actual - min) / (max - min) * 100.0)
+    if ip < 20:
+        ip = 20
+    return ip
+
 while True:
     
     distance = ultrasonic.distance
+    red = 0
+    green = 0
+    blue = 0
+    
     if distance <= 0.5:
-        percent = distance / 0.5
-        red = 100 - (percent * 100)
-        if red < 20:
-            red = 20
-        green = 0
-        blue = 0
+        red = get_inverse_percent(0.0, 0.5, distance)
     elif distance <= 1.0:
-        red = 0
-        blue = 100 - (distance / 1.0 * 100)
-        if blue < 20:
-            blue = 20
-        green = 0
+        blue = get_inverse_percent(0.5, 1.0, distance)
     else:
-        red = 0
-        blue = 0
-        green = 100 - (distance / 2.0 * 100)
-        if green < 20:
-            green = 20
+        green = get_inverse_percent(1.0, 2.0, distance)
     led.set_red_intensity(red)
     led.set_green_intensity(green)
     led.set_blue_intensity(blue)
 
     count += 1
 
+    # Print value every second
     if count % 20 == 0:
         print(distance)
     sleep(0.05)
