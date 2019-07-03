@@ -2,15 +2,15 @@ import RPi.GPIO as GPIO
 from time import sleep
 import math
 
-"""
-Control an Rgb Led off of three specified GPIO pins.
-
-You can either toggle the individual leds on and off, or set
-intensity as a percentage between 0 and 100.
-
-Don't forget to include resistors when wiring it up!
-"""
 class RgbLed:
+    """
+    Control an Rgb Led off of three specified GPIO pins.
+
+    You can either toggle the individual leds on and off, or set
+    intensity as a percentage between 0 and 100.
+
+    Don't forget to include resistors when wiring it up!
+    """
     def __init__(self, red_pin, green_pin, blue_pin):
         self.red_pin = red_pin
         self.green_pin = green_pin
@@ -64,12 +64,12 @@ class RgbLed:
         percent = (sine * 50) + 50
         return percent
 
-    """
-    Create a pleasant color cycle on the LED. Intended to show that 
-    an app is still running in a headless environment, where it would
-    be called once every round of the main working loop.
-    """
     def cycle_intensity(self):
+        """
+        Create a pleasant color cycle on the LED. Intended to show that 
+        an app is still running in a headless environment, where it would
+        be called once every round of the main working loop.
+        """
         self.cycle_position += 1
         if self.cycle_position >= 360:
             self.cycle_position = 0
