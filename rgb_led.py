@@ -52,7 +52,7 @@ class RgbLed:
     def start_intensity_mode(self):
         self.red_pwm.start(0)
         self.blue_pwm.start(0)
-        self.blue_pwm.start(0)
+        self.green_pwm.start(0)
 
     def stop_intensity_mode(self):
         self.red_pwm.stop()
