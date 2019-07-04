@@ -24,6 +24,8 @@ class SegmentDisplay:
         "8": A + B + C + D + E + F + G,
         "9": A + B + G + F + C,
 
+        " ": 0,
+
         "A": A + B + F + G + E + C,
         "B": A + B + C + D + E + F + G,
         "C": A + F + E + D,
@@ -149,7 +151,53 @@ def segment_example(shift_register):
         sleep(0.5)
 
     shift_register.number(0)
-            
+
+
+def multi_segment_example(shift_register):
+    """
+    Use four IO pins to control a 4 digit seven segment display.
+
+    TODO: Chain two shift registers together for the slot control
+    logic to free the pins back up.
+    """
+    first = 18
+    second = 19
+    third = 23
+    fourth = 24
+
+    #19, 18 ,23, 25
+    GPIO.setup(first, GPIO.OUT, initial=GPIO.HIGH)
+    GPIO.setup(second, GPIO.OUT, initial=GPIO.HIGH)
+    GPIO.setup(third, GPIO.OUT, initial=GPIO.HIGH)
+    GPIO.setup(fourth, GPIO.OUT, initial=GPIO.HIGH)
+
+    sleep_time = 0.001
+
+    text = "HELP "
+    while True:
+        for i in range(100):
+            shift_register.character(text[0])
+            GPIO.output(first, GPIO.LOW)
+            sleep(sleep_time)
+            GPIO.output(first, GPIO.HIGH)
+
+            shift_register.character(text[1])
+            GPIO.output(second, GPIO.LOW)
+            sleep(sleep_time)
+            GPIO.output(second, GPIO.HIGH)#
+
+            shift_register.character(text[2])
+            GPIO.output(third, GPIO.LOW)
+            sleep(sleep_time)
+            GPIO.output(third, GPIO.HIGH)
+
+            shift_register.character(text[3])
+            GPIO.output(fourth, GPIO.LOW)
+            sleep(sleep_time)
+            GPIO.output(fourth, GPIO.HIGH)
+
+        text = text[1:] + text[0]
+    
 if __name__ == "__main__":
     GPIO.setmode(GPIO.BCM)
 
@@ -158,6 +206,6 @@ if __name__ == "__main__":
     data = 21 # 16
     
     shift_register = ShiftRegister(data, clock, latch)
-    segment_example(shift_register)
-    
+#    segment_example(shift_register)
+    multi_segment_example(shift_register)
     GPIO.cleanup()
