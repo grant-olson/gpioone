@@ -42,13 +42,15 @@ class SegmentDisplay:
         "P": A + B + G + F + E,
         "R": E + G,
         "S": A + F + G + C + D,
-        "T": B + G + C,
+        "T": D + F + E + G,
         "U": E + D + C,
         "V": E + D + C,
         "Y": F + G + B + C,
         
         
-        "?": A + B + G + E
+        "?": A + B + G + E + DP,
+        "!": B + DP,
+        ".": DP
         }
 
     @staticmethod
@@ -173,7 +175,7 @@ def multi_segment_example(shift_register):
 
     sleep_time = 0.001
 
-    text = "HELP "
+    text = "DANGER!!! DO NOT EAT... "
     while True:
         for i in range(100):
             shift_register.character(text[0])
