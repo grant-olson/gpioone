@@ -1,5 +1,5 @@
 import RPi.GPIO as GPIO
-from gpiozero import DistanceSensor
+from gpioone import Ultrasonic
 import rgb_led
 from time import sleep
 
@@ -56,26 +56,6 @@ class RgbDistanceReporter:
         self.led.set_green_intensity(green)
         self.led.set_blue_intensity(blue)
         
-class Ultrasonic:
-    """
-    Simple interface. Get distance, send to reporter.
-    """
-    def __init__(self, echo_pin, trigger_pin, max_distance, reporter):
-        self.ultrasonic = DistanceSensor(echo=echo_pin,trigger=trigger_pin,max_distance=max_distance)
-        self.reporter = reporter
-
-    def run(self):
-        count = 0
-
-        while True:
-            distance = self.ultrasonic.distance
-            self.reporter.report(distance)
-            count += 1
-
-            # Print value every second
-            if count % 20 == 0:
-                print("%0.2f meter" % distance)
-            sleep(0.05)
 
 if __name__ == "__main__":
     r_io_pin = 4
