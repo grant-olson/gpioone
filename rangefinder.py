@@ -61,7 +61,7 @@ class Ultrasonic:
     Simple interface. Get distance, send to reporter.
     """
     def __init__(self, echo_pin, trigger_pin, max_distance, reporter):
-        self.ultrasonic = DistanceSensor(echo=ultrasonic_echo,trigger=ultrasonic_trigger,max_distance=10.0)
+        self.ultrasonic = DistanceSensor(echo=echo_pin,trigger=trigger_pin,max_distance=max_distance)
         self.reporter = reporter
 
     def run(self):
@@ -85,8 +85,8 @@ if __name__ == "__main__":
     reporter = RgbDistanceReporter(r_io_pin, g_io_pin, b_io_pin)
 
 
-    ultrasonic_echo = 21
-    ultrasonic_trigger = 20
+    ultrasonic_echo = 25 # 21
+    ultrasonic_trigger = 22 # 20
 
     max_distance = 10.0
 
