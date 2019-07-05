@@ -1,6 +1,5 @@
 import RPi.GPIO as GPIO
 from gpioone import *
-import rgb_led
 from time import sleep
 
 class RgbDistanceReporter:
@@ -20,7 +19,7 @@ class RgbDistanceReporter:
         self.medium_threshold = 3.0
         self.max_distance = 10.0
         
-        self.led = rgb_led.RgbLed(red_pin, green_pin, blue_pin)
+        self.led = RgbLed(red_pin, green_pin, blue_pin)
 
         # Blink to let us know it's on
         for x in range(0,3):
@@ -53,17 +52,25 @@ class RgbDistanceReporter:
         self.led.set_red_intensity(red)
         self.led.set_green_intensity(green)
         self.led.set_blue_intensity(blue)
+
+class LcdReporter:
+    def __init__(self, rs, e, d4, d5, d6, d7):
+        self.lcd_display = LcdDisplay(rs,e,d4,d5,d6,d7)
+
+    def report(self, distance):
+        self.lcd_display.line_1("%0.2f meters" % distance)
+        decimal_feet = distance * 3.3
+        feet = int(decimal_feet)
+        decimal_inches = decimal_feet - feet
+        inches = decimal_inches * 12
+        self.lcd_display.line_2("%d ft, %0.2f in" % (feet, inches))
         
 class SegmentReporter:
-    def __init__(self):
-        latch = 20 # 21
-        clock = 16 # 20
-        data = 21 # 16
-
-        self.first = 18
-        self.second = 19
-        self.third = 23
-        self.fourth = 24
+    def __init__(self, latch, clock, data, s1, s2, s3, s4):
+        self.first = s1
+        self.second = s2
+        self.third = s3
+        self.fourth = s4
 
         GPIO.setup(self.first, GPIO.OUT, initial=GPIO.HIGH)
         GPIO.setup(self.second, GPIO.OUT, initial=GPIO.HIGH)
@@ -111,21 +118,22 @@ if __name__ == "__main__":
 
         reporter = RgbDistanceReporter(r_io_pin, g_io_pin, b_io_pin)
 
-
-        ultrasonic_echo = 25 # 21
-        ultrasonic_trigger = 22 # 20
-
-        max_distance = 10.0
-
-        us = Ultrasonic(ultrasonic_echo, ultrasonic_trigger, max_distance, reporter)
-        us.run()
+    elif False:
+        reporter = SegmentReporter(20, 16, 21, 18, 19, 23, 24)
     else:
-        ultrasonic_echo = 25
-        ultrasonic_trigger = 22
-        max_distance = 10.0
+        rs = 4
+        e = 5
+        d4 =6
+        d5 = 22
+        d6 = 25
+        d7 = 21
+        reporter = LcdReporter(rs, e, d4, d5, d6, d7)
+        
+    ultrasonic_echo = 20
+    ultrasonic_trigger = 16
+    max_distance = 10.0
 
-        us = Ultrasonic(ultrasonic_echo, ultrasonic_trigger, max_distance, SegmentReporter())
-        us.run()
-
+    us = Ultrasonic(ultrasonic_echo, ultrasonic_trigger, max_distance, reporter)
+    us.run()
 
     GPIO.cleanup()
