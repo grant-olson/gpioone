@@ -14,7 +14,37 @@ It currently provides interfaces to:
 * Seven Segement LED displays such as single-element 5161AS and 4-element SH5461AS
 * Three colored RGB Leds.
 
-It was primarily written to help the author learn more about
+## Examples
+
+The example files use environment variables to set pins so that we will not accidentally send something down the wrong pin and damage equipment. So for example, if you have a Common-cathode RGB LED set up with the Cathode tied to ground, and the Red, Green, and Blue pins to GPIO 4, 5, and 6 (with a 220 Ohm Resistor in between each connection!) then you can simply run `RED=4 GREEN=5 BLUE=6 python3 rgb_led_examples.py` and the LED should come to life.
+
+Each example can be run without environment variables for instructions and a description:
+
+```
+pi@raspberrypi:~/src/gpioone $ python3 rgb_led_examples.py 
+Couldn't find required environment setting fo RED pin.
+
+Simple examples with RGB LEDs.
+
+It will first turn on the LEDs one by one, then enter a color cycle mode that uses software PWM to create a glowing light.
+
+These are the required settings which should correspond to pins on devices:
+
+    RED - Red Pin
+    GREEN - Green Pin
+    BLUE - Blue Pin
+
+Example Usage:
+
+    RED=1 GREEN=2 BLUE=3 python3 /home/pi/src/gpioone/gpioone/example_help.py
+
+pi@raspberrypi:~/src/gpioone $ 
+
+```
+
+## Thanks
+
+Gpioone was primarily written to help the author learn more about
 interfacing various hardware with the Raspberry Pi. I have made
 attempts to write clear, easy-to-follow code that should be generally
 reusable. How useful this is to anyone else remains to be seen. Let me
