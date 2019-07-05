@@ -2,14 +2,16 @@
 
 GPIO One is an unofficial user-created set of modules to allow you to
 easily use various input/output devices on your Raspberry Pi when the
-default library and GPIOzero don't have any useful code.
+default library and GPIOzero don't have any useful code. It hopes to
+fill in some of the blanks that keep you from getting your projects up
+and running quickly and smoothly.
 
 It currently provides interfaces to:
 
 * Ultrasonic Distance measuring devices.
 * LCD Displays such as the 1602A
 * Shift registers such as 74HC595
-* Seven Segement LED displays
+* Seven Segement LED displays such as single-element 5161AS and 4-element SH5461AS
 * Three colored RGB Leds.
 
 It was primarily written to help the author learn more about
