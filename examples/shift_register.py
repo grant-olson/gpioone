@@ -1,5 +1,6 @@
-import RPi.GPIO as gpio
-from gpioone import *
+from gpioone_setup import *
+
+raise SystemError("not ported to new example structure yet")
 
 def led_strip_example(shift_register):
     # Example is hooked up to 8 LEDs with 220 Ohm resistors between

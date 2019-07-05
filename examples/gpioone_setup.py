@@ -1,8 +1,10 @@
+import RPi.GPIO as GPIO
 try:
-    import gpioone
+    from gpioone import *
 except ImportError:
     import os, sys
     dir = os.path.dirname(os.path.abspath(__file__))
     path = os.path.join(dir, "../")
     sys.path.append(path)
-    import gpioone
+    from gpioone import *
+

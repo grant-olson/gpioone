@@ -1,5 +1,4 @@
-import RPi.GPIO as GPIO
-from gpioone import *
+from gpioone_setup import *
 
 if __name__ == "__main__":
 
