@@ -55,7 +55,7 @@ class SegmentDisplay:
 
     @staticmethod
     def value(character, decimal_point=False):
-        if len(character) <> 1:
+        if len(character) != 1:
             raise "Only one char!"
         if character in SegmentDisplay.DISPLAY:
             v = SegmentDisplay.DISPLAY[character.upper()]
