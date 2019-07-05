@@ -2,8 +2,18 @@ import RPi.GPIO as GPIO
 from gpioone import *
 
 if __name__ == "__main__":
+    s = SetupExample(help="""Simple examples with RGB LEDs.
+
+It will first turn on the LEDs one by one, then enter a color cycle mode that uses software PWM to create a glowing light.
+""")
+    s.rv("RED", "Red Pin")
+    s.rv("GREEN", "Green Pin")
+    s.rv("BLUE", "Blue Pin")
+
+    s.setup()
+    
     GPIO.setmode(GPIO.BCM)
-    rgb_led = RgbLed(4,5,6)
+    rgb_led = RgbLed(s.RED,s.GREEN,s.BLUE)
     
     sleep(1)
 
