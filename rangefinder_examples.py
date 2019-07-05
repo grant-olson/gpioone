@@ -64,7 +64,7 @@ class LcdReporter:
         decimal_inches = decimal_feet - feet
         inches = decimal_inches * 12
         self.lcd_display.line_2("%d ft, %0.2f in" % (feet, inches))
-        
+
 class SegmentReporter:
     def __init__(self, latch, clock, data, s1, s2, s3, s4):
         self.first = s1
@@ -111,29 +111,54 @@ class SegmentReporter:
 if __name__ == "__main__":
     GPIO.setmode(GPIO.BCM)
 
-    if False:
-        r_io_pin = 4
-        g_io_pin = 5
-        b_io_pin = 6
+    s = SetupExample(help="Rangefinder with multiple displays")
+
+    s.rv("ECHO","Echo Pin")
+    s.rv("TRIGGER", "Trigger Pin")
+
+    s.ov("RGB_RED", "RGB LED Red Pin")
+    s.ov("RGB_GREEN", "RGB LED Green Pin")
+    s.ov("RGB_BLUE", "RGB LED Blue Pin")
+    
+    s.ov("SEGMENT_LATCH", "Latch on Shift Register")
+    s.ov("SEGMENT_CLOCK", "Clock on Shift Register")
+    s.ov("SEGMENT_DATA", "Data on shift register")
+    s.ov("SEGMENT_LED_1", "LED 1 Control Pin")
+    s.ov("SEGMENT_LED_2", "LED 2 Control Pin")
+    s.ov("SEGMENT_LED_3", "LED 3 Control Pin")
+    s.ov("SEGMENT_LED_4", "LED 4 Control Pin")
+    
+    s.ov("LCD_RS", "LCD command/character flag")
+    s.ov("LCD_E", "LCD execute command")
+    s.ov("LCD_D4", "LCD Data 4 Pin")
+    s.ov("LCD_D5", "LCD Data 5 Pin")
+    s.ov("LCD_D6", "LCD Data 6 Pin")
+    s.ov("LCD_D7", "LCD Data 7 Pin")
+
+    s.setup()
+    
+    if hasattr(s,"RGB_RED"):
+        r_io_pin = s.RGB_RED
+        g_io_pin = s.RGB_GREEN
+        b_io_pin = s.RGV_BLUE
 
         reporter = RgbDistanceReporter(r_io_pin, g_io_pin, b_io_pin)
 
     elif False:
-        reporter = SegmentReporter(20, 16, 21, 18, 19, 23, 24)
+        reporter = SegmentReporter(
+            s.SEGMENT_LATCH, s.SEGMENT_CLOCK, s.SEGMENT_DATA,
+            s.SEGMENT_LED_1, s.SEGMENT_LED_2, s.SEGMENT_LED_3, s.SEGMENT_LED_4
+        )
+    elif hasattr(s,"LCD_E"):
+        reporter = LcdReporter(s.LCD_RS, s.LCD_E, s.LCD_D4, s.LCD_D5, s.LCD_D6, s.LCD_D7)
     else:
-        rs = 4
-        e = 5
-        d4 =6
-        d5 = 22
-        d6 = 25
-        d7 = 21
-        reporter = LcdReporter(rs, e, d4, d5, d6, d7)
+        raise SystemError("Need either LCD, RGB, or SEGMENT configured")
         
     ultrasonic_echo = 20
     ultrasonic_trigger = 16
     max_distance = 10.0
 
-    us = Ultrasonic(ultrasonic_echo, ultrasonic_trigger, max_distance, reporter)
+    us = Ultrasonic(s.ECHO, s.TRIGGER, max_distance, reporter)
     us.run()
 
     GPIO.cleanup()

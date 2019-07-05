@@ -5,6 +5,7 @@ import sys
 class SetupExample:
     def __init__(self, help=None):
         self.required_vars = OrderedDict()
+        self.optional_vars = OrderedDict()
         self.help = help
 
     def required_var(self, var, desc):
@@ -12,12 +13,22 @@ class SetupExample:
 
     def rv(self, var, desc):
         self.required_var(var, desc)
+
+    def optional_var(self, var, desc):
+        self.optional_vars[var] = desc
+
+    def ov(self, var, desc):
+        self.optional_var(var, desc)
         
     def setup(self):
+        for var in self.optional_vars.keys():
+            if var in environ:
+                value = environ[var]
+                setattr(self, var, int(value))
         for var in self.required_vars.keys():
             if var in environ:
                 value = environ[var]
-                globals()[var] = value
+                setattr(self, var, int(value))
             else:
                 print("Couldn't find required environment setting fo %s pin." % var)
                 print("")
@@ -27,6 +38,8 @@ class SetupExample:
                 print("")
                 for var, desc in self.required_vars.items():
                     print("    %s - %s" % (var, desc))
+                for var, desc in self.optional_vars.items():
+                    print("    %s - %s [OPTIONAL]" % (var, desc))
                 print("")
                 print("Example Usage:")
                 print("")
