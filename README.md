@@ -16,12 +16,18 @@ It currently provides interfaces to:
 
 ## Examples
 
-The example files use environment variables to set pins so that we will not accidentally send something down the wrong pin and damage equipment. So for example, if you have a Common-cathode RGB LED set up with the Cathode tied to ground, and the Red, Green, and Blue pins to GPIO 4, 5, and 6 (with a 220 Ohm Resistor in between each connection!) then you can simply run `RED=4 GREEN=5 BLUE=6 python3 rgb_led_examples.py` and the LED should come to life.
+The example files use environment variables to set pins so that we
+will not accidentally send something down the wrong pin and damage
+equipment. So for example, if you have a Common-cathode RGB LED set up
+with the Cathode tied to ground, and the Red, Green, and Blue pins to
+GPIO 4, 5, and 6 (with a 220 Ohm Resistor in between each connection!)
+then you can simply go to the examples directory,  run
+`RED=4 GREEN=5 BLUE=6 python3 rgb_led.py` and the LED should come to life.
 
 Each example can be run without environment variables for instructions and a description:
 
 ```
-pi@raspberrypi:~/src/gpioone/examples $ python3 rgb_led_examples.py 
+pi@raspberrypi:~/src/gpioone/examples $ python3 rgb_led.py 
 Couldn't find required environment setting fo RED pin.
 
 Simple examples with RGB LEDs.
