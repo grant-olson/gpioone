@@ -8,7 +8,6 @@ and running quickly and smoothly.
 
 It currently provides interfaces to:
 
-* Ultrasonic Distance measuring devices.
 * LCD Displays such as the 1602A
 * Shift registers such as 74HC595
 * Analog-to-Digital via the MCP3008/4 chip line
@@ -22,7 +21,7 @@ The example files use environment variables to set pins so that we will not acci
 Each example can be run without environment variables for instructions and a description:
 
 ```
-pi@raspberrypi:~/src/gpioone $ python3 rgb_led_examples.py 
+pi@raspberrypi:~/src/gpioone/examples $ python3 rgb_led_examples.py 
 Couldn't find required environment setting fo RED pin.
 
 Simple examples with RGB LEDs.
