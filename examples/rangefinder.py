@@ -1,4 +1,7 @@
+# This is a harness to run from source, if using the installed package use:
+# from gpioone import *
 from gpioone_setup import *
+
 from gpiozero import DistanceSensor
 from time import sleep
 

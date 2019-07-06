@@ -1,3 +1,5 @@
+# This is a harness to run from source, if using the installed package use:
+# from gpioone import *
 from gpioone_setup import *
 
 if __name__ == "__main__":
