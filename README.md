@@ -11,6 +11,7 @@ It currently provides interfaces to:
 * Ultrasonic Distance measuring devices.
 * LCD Displays such as the 1602A
 * Shift registers such as 74HC595
+* Analog-to-Digital via the MCP3008/4 chip line
 * Seven Segement LED displays such as single-element 5161AS and 4-element SH5461AS
 * Three colored RGB Leds.
 
