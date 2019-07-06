@@ -6,13 +6,16 @@ class MCP300x:
         self.chip_select = chip_select
         GPIO.setup(chip_select, GPIO.OUT, initial=GPIO.LOW)
         self.spi = spidev.SpiDev()
-        self.spi.open(0,0)
+        try:
+            self.spi.open(0,0)
+        except IOError:
+            raise RuntimeError("Couldn't attach to SPI. This is disabled by default. Have you enabled it in raspbi-config?")
         self.spi.max_speed_hz = 1350000
+    
 
     def reset(self):
         GPIO.output(self.chip_select, GPIO.HIGH)
         GPIO.output(self.chip_select, GPIO.LOW)
-
 
     def shutdown(self):
         """Pause and throw in to low power mode."""
