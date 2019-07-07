@@ -13,7 +13,8 @@ It currently provides interfaces to:
 * LCD Displays such as the 1602A
 * Shift registers such as 74HC595
 * Analog-to-Digital via the MCP3008/4 chip line. And built on top of the raw ADC, interfaces for:
-    * Analog Joystick
+    * Analog Joysticks
+    * Thermistors
 
 ## Examples
 

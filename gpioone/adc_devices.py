@@ -109,3 +109,48 @@ class Joystick:
             return GPIO.input(self.button_pin) == 0
 
         
+from math import log
+
+class Thermistor:
+    def __init__(self, adc, analog_pin, b_value=None):
+        if b_value is None:
+            print("WARNING. No B Value set!")
+            print("WARNING: You should try to get this from manufacturer datasheet.")
+            print("WARNING: Guessing 4000 which may or may not provide reasoable results")
+            self.b = 4000
+        else:
+            self.b = b_value
+            
+        self.adc = adc
+        self.analog_pin = analog_pin
+
+    # There is some tricky math here. I used the B equation as listed at:
+    #
+    # https://www.jameco.com/Jameco/workshop/TechTip/temperature-measurement-ntc-thermistors.html
+    #
+    # Wikipedia also provides a bunch of information:
+    #
+    # https://en.wikipedia.org/wiki/Thermistor
+    def kelvin(self):
+        reading = self.adc.get(input=self.analog_pin, percent=False)
+        ln = log((1024.0/reading) - 1)
+        inverse_temp = (1.0/298.15) + (1.0/self.b * ln)
+        temp = 1.0 / inverse_temp
+
+        return temp
+
+    def k(self):
+        self.kelvin()
+    
+    def centigrade(self):
+        return self.kelvin() - 273.15
+
+    def c(self):
+        return self.centigrade()
+    
+    def fahrenheit(self):
+        return (self.centigrade() * 9 / 5) + 32
+
+    def f(self):
+        return(self.fahrenheit())
+
