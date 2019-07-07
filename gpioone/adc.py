@@ -11,8 +11,10 @@ class MCP300x:
         except IOError:
             raise RuntimeError("Couldn't attach to SPI. This is disabled by default. Have you enabled it in raspbi-config?")
         self.spi.max_speed_hz = 1350000
-    
-
+        self.bits = 10
+        self.resolution = 1 << self.bits 
+        self.max_value = self.resolution - 1
+        
     def reset(self):
         GPIO.output(self.chip_select, GPIO.HIGH)
         GPIO.output(self.chip_select, GPIO.LOW)
@@ -51,7 +53,7 @@ class MCP300x:
         unpacked = ((byte_2 & 3) << 8) + byte_3
 
         if percent:
-            return float(unpacked) / 1023
+            return float(unpacked) / self.max_value
         else: # 10 bit value 0-1023
             return unpacked
             

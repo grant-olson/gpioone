@@ -40,7 +40,7 @@ class Joystick:
     def vectorize(self,raw_value, center):
         if raw_value >= center:
             relative = raw_value - center
-            vector = float(relative) / (1023 - center)
+            vector = float(relative) / (self.adc.max_value - center)
         else:
             vector = - (float(center - raw_value) / center)
         return vector
@@ -133,7 +133,7 @@ class Thermistor:
     # https://en.wikipedia.org/wiki/Thermistor
     def kelvin(self):
         reading = self.adc.get(input=self.analog_pin, percent=False)
-        ln = log((1024.0/reading) - 1)
+        ln = log((float(self.adc.max_value)/reading) - 1)
         inverse_temp = (1.0/298.15) + (1.0/self.b * ln)
         temp = 1.0 / inverse_temp
 
