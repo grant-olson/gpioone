@@ -6,7 +6,8 @@ class Stepper:
     Drive a bipolar stepper via a ULN2003. The ULN2003 chip takes the low power from GPIO
     pins and turns it in to high power that drives the motor, while keeping the power isolated.
     Note that it acts as an Inverter, so when we set a GPIO pin to HIGH, it actually goes
-    LOW to the motor driver.
+    LOW to the motor driver. HOWEVER, the coils are powered via center tap to 5 volts, so 
+    setting a pin to LOW powers up the magnetic coil.
     """
     def __init__(self,steps_per_revolution,one,two,three,four,rpm=1):
         self.steps_per_revolution = float(steps_per_revolution)
