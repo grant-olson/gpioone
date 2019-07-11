@@ -34,7 +34,8 @@ Couldn't find required environment setting fo RED pin.
 
 Simple examples with RGB LEDs.
 
-It will first turn on the LEDs one by one, then enter a color cycle mode that uses software PWM to create a glowing light.
+It will first turn on the LEDs one by one, then enter a color cycle mode that uses 
+software PWM to create a glowing light.
 
 These are the required settings which should correspond to pins on devices:
 
