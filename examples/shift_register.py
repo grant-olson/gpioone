@@ -126,11 +126,11 @@ which pins map to what segment.
     try:
         shift_register = ShiftRegister(s.DATA, s.CLOCK, s.LATCH)
 
-        if hasattr(s,"MULTI_1"):
+        if s.has_var("MULTI_1"):
             multi_segment_example(shift_register, s.MULTI_1, s.MULTI_2, s.MULTI_3, s.MULTI_4)
-        elif hasattr(s,"LEDS"):
+        elif s.has_var("LEDS"):
             led_strip_example(shift_register)
-        elif hasattr(s,"SEGMENT"):
+        elif s.has_var("SEGMENT"):
             segment_example(shift_register)
         else:
             print("You didn't tell us where to send the Segment Register output!")

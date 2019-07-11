@@ -161,27 +161,23 @@ if __name__ == "__main__":
 
     s.setup()
     
-    if hasattr(s,"RGB_RED"):
+    if s.has_var("RGB_RED"):
         r_io_pin = s.RGB_RED
         g_io_pin = s.RGB_GREEN
         b_io_pin = s.RGV_BLUE
 
         reporter = RgbDistanceReporter(r_io_pin, g_io_pin, b_io_pin)
 
-    elif False:
+    elif s.has_var("SEGMENT_LATCH"):
         reporter = SegmentReporter(
             s.SEGMENT_LATCH, s.SEGMENT_CLOCK, s.SEGMENT_DATA,
             s.SEGMENT_LED_1, s.SEGMENT_LED_2, s.SEGMENT_LED_3, s.SEGMENT_LED_4
         )
-    elif hasattr(s,"LCD_E"):
+    elif s.has_var("LCD_E"):
         reporter = LcdReporter(s.LCD_RS, s.LCD_E, s.LCD_D4, s.LCD_D5, s.LCD_D6, s.LCD_D7)
     else:
         raise SystemError("Need either LCD, RGB, or SEGMENT configured")
         
-    ultrasonic_echo = 20
-    ultrasonic_trigger = 16
-    max_distance = 10.0
-
     us = Ultrasonic(s.ECHO, s.TRIGGER, max_distance, reporter)
     us.run()
 

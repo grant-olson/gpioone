@@ -19,6 +19,9 @@ class SetupExample:
 
     def ov(self, var, desc):
         self.optional_var(var, desc)
+
+    def has_var(self, var):
+        return hasattr(self, var)
         
     def setup(self):
         for var in self.optional_vars.keys():

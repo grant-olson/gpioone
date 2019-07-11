@@ -17,7 +17,7 @@ if __name__ == "__main__":
     
     mcp = MCP3008(s.CHIP_SELECT)
 
-    if hasattr(s,"BUTTON"):
+    if s.has_var("BUTTON"):
         joystick = Joystick(mcp, s.X_PIN, s.Y_PIN, s.BUTTON)
     else:
         joystick = Joystick(mcp, s.X_PIN, s.Y_PIN)
