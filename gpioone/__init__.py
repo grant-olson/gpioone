@@ -5,3 +5,4 @@ from .example_help import *
 from .adc import *
 from .adc_devices import *
 from .steppers import *
+from .dc_motor import *

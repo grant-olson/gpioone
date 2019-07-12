@@ -15,7 +15,10 @@ It currently provides interfaces to:
 * Analog-to-Digital via the MCP3008/4 chip line. And built on top of the raw ADC, interfaces for:
     * Analog Joysticks
     * Thermistors
-
+* Motors:
+    * Stepper motors via ULN2003
+    * DC motors via L293D
+    
 ## Examples
 
 The example files use environment variables to set pins so that we
