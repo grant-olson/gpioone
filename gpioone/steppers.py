@@ -56,5 +56,5 @@ class Stepper:
         step_angle = 360.0 / self.steps_per_revolution
         angle_steps = float(degrees) / step_angle
         
-        self.steps(int(angle_steps))
+        self.steps(int(angle_steps),clockwise=clockwise)
 
