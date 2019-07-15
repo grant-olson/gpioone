@@ -1,6 +1,4 @@
-# This is a harness to run from source, if using the installed package use:
-# from gpioone import *
-from gpioone_setup import *
+from gpioone import *
 
 def led_strip_example(shift_register):
     # Example is hooked up to 8 LEDs with 220 Ohm resistors between
@@ -84,12 +82,6 @@ def multi_segment_example(shift_register, first, second, third, fourth):
     
 if __name__ == "__main__":
     GPIO.setmode(GPIO.BCM)
-
-# This is a harness to run from source, if using the installed package use:
-# from gpioone import *
-from gpioone_setup import * 
-
-if __name__ == "__main__":
 
     s = SetupExample(help="""This provides a few examples of using a shift register.
 

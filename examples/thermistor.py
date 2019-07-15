@@ -1,6 +1,4 @@
-# This is a harness to run from source, if using the installed package use:
-# from gpioone import *
-from gpioone_setup import * 
+from gpioone import * 
 
 from time import sleep
 if __name__ == "__main__":

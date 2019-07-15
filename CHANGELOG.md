@@ -1,3 +1,5 @@
+* configure_examples_env script to get rid of old hack.
+
 * Added dependencies in setup.py
 
 * Fixed bug #1: Stepper Motor doesn't go counterclockwise.

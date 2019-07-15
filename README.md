@@ -21,6 +21,25 @@ It currently provides interfaces to:
     
 ## Examples
 
+### Configuring Examples with Virtualenv
+
+To easily configure the examples directory, just run `./configure_example_env` and
+we will install and configure a virtualenv for the examples directory. Subsequent runs
+of `./configure_example_env` WILL NOT install virtualenv, but WILL update gpioone
+to run from the latest source.
+
+To activate the appropriate virtualenv to run the examples:
+
+```
+cd examples/
+source bin/activate
+```
+
+After this you should be able to easily run any example file without additional
+configuration.
+
+### Using Examples
+
 The example files use environment variables to set pins so that we
 will not accidentally send something down the wrong pin and damage
 equipment. So for example, if you have a Common-cathode RGB LED set up

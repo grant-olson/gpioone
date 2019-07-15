@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+if [ -d "examples/bin" ]
+then
+    echo "Virtualenv already installed. Skipping config. Run rm -fr examples/bin to nuke it"
+else
+    virtualenv examples
+fi
+
+cd examples
+source bin/activate
+pip install ../
