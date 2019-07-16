@@ -49,7 +49,7 @@ class SetupExample:
                 example_string = "    "
                 for i, v in enumerate(self.required_vars.keys()):
                     example_string += "%s=%d " % (v, i + 1)
-                example_string += "python3 %s" % __file__
+                example_string += "%s" % sys.argv[0]
                 print(example_string)
                 print("")
                 sys.exit(1)

@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-if [ -d "examples/bin" ]
+if [ -d "devenv/bin" ]
 then
     echo "Virtualenv already installed. Skipping config. Run rm -fr examples/bin to nuke it"
 else
-    virtualenv examples
+    virtualenv -p python3 devenv
 fi
 
-cd examples
+cd devenv
 source bin/activate
 pip install ../

@@ -21,43 +21,24 @@ It currently provides interfaces to:
     
 ## Examples
 
-### Configuring Examples with Virtualenv
-
-To easily configure the examples directory, just run `./configure_example_env` and
-we will install and configure a virtualenv for the examples directory. Subsequent runs
-of `./configure_example_env` WILL NOT install virtualenv, but WILL update gpioone
-to run from the latest source.
-
-To activate the appropriate virtualenv to run the examples:
-
-```
-cd examples/
-source bin/activate
-```
-
-After this you should be able to easily run any example file without additional
-configuration.
-
-### Using Examples
-
 The example files use environment variables to set pins so that we
 will not accidentally send something down the wrong pin and damage
 equipment. So for example, if you have a Common-cathode RGB LED set up
 with the Cathode tied to ground, and the Red, Green, and Blue pins to
 GPIO 4, 5, and 6 (with a 220 Ohm Resistor in between each connection!)
 then you can simply go to the examples directory,  run
-`RED=4 GREEN=5 BLUE=6 python3 rgb_led.py` and the LED should come to life.
+`RED=4 GREEN=5 BLUE=6 rgb_led` and the LED should come to life.
 
-Each example can be run without environment variables for instructions and a description:
+Each example can be run without environment variables for instructions and a
+description:
 
 ```
-pi@raspberrypi:~/src/gpioone/examples $ python3 rgb_led.py 
+pi@raspberrypi:~/src/gpioone/examples $ ./rgb_led 
 Couldn't find required environment setting fo RED pin.
 
 Simple examples with RGB LEDs.
 
-It will first turn on the LEDs one by one, then enter a color cycle mode that uses 
-software PWM to create a glowing light.
+It will first turn on the LEDs one by one, then enter a color cycle mode that uses software PWM to create a glowing light.
 
 These are the required settings which should correspond to pins on devices:
 
@@ -67,11 +48,28 @@ These are the required settings which should correspond to pins on devices:
 
 Example Usage:
 
-    RED=1 GREEN=2 BLUE=3 python3 /home/pi/src/gpioone/gpioone/example_help.py
+    RED=1 GREEN=2 BLUE=3 ./rgb_led
 
 pi@raspberrypi:~/src/gpioone $ 
 
 ```
+### Configuring Dev Environment with Virtualenv
+
+To set up a quick virtualenv to run code from the source distribution, just
+run `./configure_devenv` and we will install and configure a virtualenv
+for the examples directory. Subsequent runs of `./configure_devenv`
+WILL NOT install virtualenv, but WILL update gpioone to run from the
+latest source.
+
+To activate the appropriate virtualenv:
+
+```
+source devenv/bin/activate
+```
+
+After this you should be able to easily run any example or test file without
+additional configuration. You will need to re-run the configure command if you
+change the gpioone source.
 
 ## Thanks
 

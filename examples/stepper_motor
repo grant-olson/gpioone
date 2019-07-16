@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from gpioone import * 
 from time import sleep
 from datetime import datetime
@@ -16,17 +18,20 @@ if __name__ == "__main__":
     s.setup()
     
 
-    stepper = Stepper(s.STEPS,s.M1,s.M2,s.M3,s.M4, rpm=15)
+    stepper = Stepper(s.STEPS,s.M1,s.M2,s.M3,s.M4, rpm=2)
 
     try:
         print("15 RPM")
         print("Starting 90 degrees: %s" % datetime.now())
-        stepper.degrees(90)
+#        stepper.degrees(-360)
+        stepper.degrees(-180)
+        stepper.degrees(180)
+#        stepper.degrees(90)
         print("Done with 90 degrees: %s" % datetime.now())
         sleep(1)
-        print("Starting 360 degrees ccw: %s" % datetime.now())
-        stepper.degrees(-360)
-        print("Done with 360 degrees ccw: %s" % datetime.now())
+#        print("Starting 360 degrees ccw: %s" % datetime.now())
+#        stepper.degrees(-360)
+#        print("Done with 360 degrees ccw: %s" % datetime.now())
     except KeyboardInterrupt:
         pass
 

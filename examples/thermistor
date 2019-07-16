@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from gpioone import * 
 
 from time import sleep
@@ -15,6 +17,6 @@ if __name__ == "__main__":
     thermistor = Thermistor(mcp, s.THERMISTOR)
    
     while 1:
-        print "Temp: %0.2f C %0.2f F" % (thermistor.c(), thermistor.f())
+        print("Temp: %0.2f C %0.2f F" % (thermistor.c(), thermistor.f()))
         
         sleep(1.0)

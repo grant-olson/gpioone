@@ -1,4 +1,6 @@
-* configure_examples_env script to get rid of old hack.
+* Script to create development virtualenv.
+
+* Clean up example scripts.
 
 * Added dependencies in setup.py
 
