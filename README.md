@@ -53,23 +53,6 @@ Example Usage:
 pi@raspberrypi:~/src/gpioone $ 
 
 ```
-### Configuring Dev Environment with Virtualenv
-
-To set up a quick virtualenv to run code from the source distribution, just
-run `./configure_devenv` and we will install and configure a virtualenv
-for the examples directory. Subsequent runs of `./configure_devenv`
-WILL NOT install virtualenv, but WILL update gpioone to run from the
-latest source.
-
-To activate the appropriate virtualenv:
-
-```
-source devenv/bin/activate
-```
-
-After this you should be able to easily run any example or test file without
-additional configuration. You will need to re-run the configure command if you
-change the gpioone source.
 
 ## Thanks
 

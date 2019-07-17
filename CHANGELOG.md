@@ -1,5 +1,3 @@
-* Script to create development virtualenv.
-
 * Clean up example scripts.
 
 * Added dependencies in setup.py
