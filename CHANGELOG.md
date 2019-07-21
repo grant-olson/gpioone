@@ -1,3 +1,7 @@
+* Servo interface.
+
+* I2C Interface.
+
 * Clean up example scripts.
 
 * Added dependencies in setup.py

@@ -7,3 +7,4 @@ from .adc_devices import *
 from .steppers import *
 from .dc_motor import *
 from .i2c import *
+from .pca9685 import *

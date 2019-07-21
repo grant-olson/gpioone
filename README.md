@@ -18,7 +18,9 @@ It currently provides interfaces to:
 * Motors:
     * Stepper motors via ULN2003
     * DC motors via L293D
-    
+    * Servos via PCA9685
+* I2C Interface:
+    * PCA9685 PWM board
 ## Examples
 
 The example files use environment variables to set pins so that we
