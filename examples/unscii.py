@@ -2010,5 +2010,37 @@ unscii = {
 }
 
 if __name__ == "__main__":
-    for k,v in unscii:
-        print(repr(k))
+    import pprint
+
+    print("Generating artifact files for later usage...")
+    
+    unscii_bytes = {}
+    unscii_transposed_bytes = {}
+    
+    for k,v in unscii.items():
+        unicode_entry = int(k, 16)
+        hex_bytes = []
+        for i in range(8):
+            offset = i * 2
+            byte = v[offset:offset+2]
+            byte = int(byte, 16)
+            hex_bytes.append(byte)
+        unscii_bytes[unicode_entry] = hex_bytes
+
+        transposed_bytes = [0,0,0,0,0,0,0,0]
+        for i in range(8):
+            hex_line = hex_bytes[i]
+            for j in range(8):
+                bit = hex_line & (1 << j)
+                if bit:
+                    transposed_bytes[j] += 1 << i
+        transposed_bytes.reverse()
+        unscii_transposed_bytes[unicode_entry] = transposed_bytes
+
+    unscii_bytes_file = open("./unscii_bytes.py", "w")
+    unscii_bytes_file.write("# File generate by unscii.py. Not intended to be read by humans.\n\n")
+    unscii_bytes_file.write("unscii_bytes = " + pprint.saferepr(unscii_bytes))
+    
+    unscii_transposed_bytes_file = open("./unscii_transposed_bytes.py", "w")
+    unscii_transposed_bytes_file.write("# File generate by unscii.py. Not intended to be read by humans.\n\n")
+    unscii_transposed_bytes_file.write("unscii_transposed_bytes = " + pprint.saferepr(unscii_transposed_bytes))

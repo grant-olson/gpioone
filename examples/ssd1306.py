@@ -1,4 +1,5 @@
 from gpioone import *
+from unscii_transposed_bytes import *
 
 class SSD1306(I2C):
     def __init__(self,device_address=0x3c):
@@ -77,12 +78,53 @@ class SSD1306(I2C):
 
 import random
 
+def a():
+    a_hex = [0x18, 0x3C, 0x66, 0x66, 0x7E, 0x66, 0x66, 0x00]
+    transposed_bits = [0,0,0,0,0,0,0,0]
+    for i in range(8):
+        hex_line = a_hex[i]
+        for j in range(8):
+            bit = hex_line & (1 << j)
+            if bit:
+                transposed_bits[j] += 1 << i
+    print(repr(transposed_bits))
+    x = 0
+    while True:
+        print(repr(x))
+        yield transposed_bits[x]
+        x += 1
+        if x >= 8:
+            x = 0
+
+def s():
+    digits =[1, 3, 6, 124, 124, 6, 3, 1]
+    x = 0
+    while True:
+        yield digits[x]
+        x += 1
+        if x >= 8:
+            x = 0
+
+def deadbeef():
+    word = "DeadBeef"
+    x = 0
+    while True:
+        letter = word[x]
+        print(letter)
+        bytes = unscii_transposed_bytes[ord(letter)]
+        for byte in bytes:
+            yield byte
+        x += 1
+        if x >= 8:
+            x = 0
 if __name__ == "__main__":
     ssd = SSD1306()
 
     ssd.send_command("OUTPUT_RAM")
     ssd.send_command("SET_CONTRAST", 128)
 
+    a_generator = deadbeef()
+    
     ssd.send_command("SET_MEMORY_ADDRESSING_MODE", 0x02) # Page addressing mode
     for i in range(0,4):
         print("PAGE %d" % i)
@@ -106,7 +148,7 @@ if __name__ == "__main__":
 
         
         for i in range(128):
-            data = random.randint(0,255)
+            data = a_generator.next()
             
             ssd.send_data(data)
             sleep(0.01)
