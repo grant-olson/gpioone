@@ -1,5 +1,5 @@
 from .i2c import *
-from unscii_transposed_bytes import *
+from .unscii import unscii_transposed_bytes
 
 class SSD1306(I2C):
     def __init__(self,device_address=0x3c):
