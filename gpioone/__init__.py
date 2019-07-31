@@ -8,3 +8,4 @@ from .steppers import *
 from .dc_motor import *
 from .i2c import *
 from .pca9685 import *
+from .ssd1306 import *

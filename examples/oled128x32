@@ -1,0 +1,71 @@
+#!/usr/bin/env python
+
+from gpioone import *
+
+import random
+
+if __name__ == "__main__":
+    ssd = SSD1306()
+
+    print "Clearing Screen"
+    ssd.clear_screen()
+    sleep(1)
+
+    print "Testing Print Functions"
+    for i in range(0,4):
+        ssd.set_row(i)
+        ssd.set_column(i * 8)
+        
+        string = "Page %d." % i
+        for j in range(i):
+            string += "."
+
+
+        ssd.print_line(string)
+
+    sleep(5)
+
+    print "TESTING PARTIAL UPDATE"
+    ssd.clear_screen()
+    ssd.set_row(2)
+    ssd.set_column(0)
+    ssd.print_line("T Minus 11!")
+    for i in range(10):
+        sleep(0.1)
+        ssd.set_column(len("T Minus ") * 8)
+        ssd.print_string("%d   " % (10 - i))
+
+    ssd.clear_screen()
+    print "Random Bytes"
+    for i in range(4):
+        ssd.set_row_and_column(i,0)
+        for j in range(16):
+            ssd.print_bytes(random.sample(range(256),8))
+            sleep(0.1)
+                
+        
+    # STILL NEED SOME API WORK
+    print "SCROLL TESTS"
+    ssd.clear_screen()
+    ssd.set_row_and_column(0,4*8-4)
+    ssd.print_string("SCROLLING")
+    ssd.set_row_and_column(1,7*8)
+    ssd.print_string("IS")
+    ssd.set_row_and_column(2,6*8+4)
+    ssd.print_string("FUN")
+    ssd.set_row_and_column(3,4*8)
+    ssd.print_string("BUSINESS")
+    ssd.send_command("RIGHT_HORIZONTAL_SCROLL", 0x0, 0x0, 0x0, 0x7, 0x0, 0xff)
+    ssd.activate_scroll()
+    sleep(3)
+    ssd.deactivate_scroll()
+    ssd.send_command("LEFT_HORIZONTAL_SCROLL", 0x0, 0x0, 0x0, 0x7, 0x0, 0xff)
+    ssd.activate_scroll()
+    sleep(3)
+    ssd.deactivate_scroll()
+    ssd.send_command("LEFT_HORIZONTAL_SCROLL", 0x0, 0x0, 0x0, 0x7, 0x0, 0xff)
+    ssd.send_command("VERTICAL_AND_RIGHT_HORIZONTAL_SCROLL", 0x0, 0x0, 0x0, 0x7, 0x01)
+    ssd.activate_scroll()
+    sleep(3)
+    ssd.deactivate_scroll()
+    print "GOODBYE"

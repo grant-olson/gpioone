@@ -21,6 +21,8 @@ It currently provides interfaces to:
     * Servos via PCA9685
 * I2C Interface:
     * PCA9685 PWM board
+    * SSD1306 driven OLED displays
+    
 ## Examples
 
 The example files use environment variables to set pins so that we

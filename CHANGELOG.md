@@ -1,3 +1,5 @@
+* SSD1306 OLED display support.
+
 * Servo interface.
 
 * I2C Interface.
