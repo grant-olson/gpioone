@@ -1,4 +1,4 @@
-from i2c import I2C
+from .i2c import I2C
 
 class PCA9685(I2C):
     def __init__(self,device_address=0x70):
@@ -29,7 +29,7 @@ class PCA9685(I2C):
             "LED3_OFF_L": 0x14,
             "LED3_OFF_H": 0x15,
             "LED4_ON_L": 0x16,
-            "LED4_ON_H": 0177,
+            "LED4_ON_H": 0x17,
             "LED4_OFF_L": 0x18,
             "LED4_OFF_H": 0x19,
             "LED5_ON_L": 0x1A,
