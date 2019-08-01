@@ -1,10 +1,11 @@
 from .i2c import *
-from .unscii import unscii_transposed_bytes
+import unscii
 
 class SSD1306(I2C):
-    def __init__(self,device_address=0x3c):
+    def __init__(self,device_address=0x3c,font='unscii_8_thin_transposed'):
         super(SSD1306,self).__init__(device_address)
 
+        self.unscii = unscii.unscii(font)
         # Sample initialization from Section 3 of the Application Note Appendix in datasheet.
         
         self.send_command("SET_MUX_RATIO", 0x3f)
@@ -19,7 +20,7 @@ class SSD1306(I2C):
         self.send_command("ENABLE_CHARGE_PUMP_REGULATOR", 0x14)
         self.send_command("DISPLAY_ON")
         self.send_command("SET_MEMORY_ADDRESSING_MODE", 0x02) # Page addressing mode
-
+        
     def registers(self):
         return {
             "COMMAND": 0x00,
@@ -116,13 +117,8 @@ class SSD1306(I2C):
         self.write_byte_data("DATA", data)
 
     def print_char(self, char, exception_on_unknown=False):
-        unicode_point = ord(char) # Probably doing this wrong!
-        if unicode_point not in unscii_transposed_bytes:
-            if exception_on_unknown:
-                raise RuntimeError("No mapping for unicode character %s" % char)
-            else:
-                unicode_point = ord("?")
-        for byte in unscii_transposed_bytes[unicode_point]:
+        char_bytes = self.unscii.get_char(char)
+        for byte in char_bytes:
             self.send_data(byte)
 
 

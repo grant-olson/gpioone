@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 setuptools.setup(
     name="gpioone",
     version="0.1.0",
-    install_requires=["RPi.GPIO", "gpiozero", "spidev"],
+    install_requires=["RPi.GPIO", "gpiozero", "spidev", "unscii"],
     author="Grant T. Olson",
     author_email="kgo@grant-olson.net",
     description="Interfaces for various GPIO devices on Raspberry PI",
