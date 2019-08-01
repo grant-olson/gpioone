@@ -10,8 +10,8 @@ class SSD1306(I2C):
         self.send_command("SET_MUX_RATIO", 0x3f)
         self.send_command("SET_DISPLAY_OFFSET", 0x00)
         self.send_command("SET_DISPLAY_START_LINE")
-        self.send_command("SET_SEGMENT_REMAP")
-        self.send_command("SET_COM_OUTPUT_SCAN_DIRECTION")
+        self.send_command("SET_SEGMENT_REMAP_0")
+        self.send_command("SET_COM_OUTPUT_SCAN_DIRECTION_INCREMENT")
         self.send_command("SET_COM_PINS", 0x02)
         self.send_command("SET_CONTRAST", 0x7F)
         self.send_command("ENTIRE_DISPLAY_ON")
@@ -39,8 +39,10 @@ class SSD1306(I2C):
             "SET_MUX_RATIO": 0xA8,
             "SET_DISPLAY_OFFSET": 0xD3,
             "SET_DISPLAY_START_LINE": 0x40,
-            "SET_SEGMENT_REMAP": 0xA0, # or A1?
-            "SET_COM_OUTPUT_SCAN_DIRECTION": 0xC0, # or C8?
+            "SET_SEGMENT_REMAP_0": 0xA0,
+            "SET_SEGMENT_REMAP_127": 0xA1,
+            "SET_COM_OUTPUT_SCAN_DIRECTION_INCREMENT": 0xC0,
+            "SET_COM_OUTPUT_SCAN_DIRECTION_DECREMENT": 0xC8,
             "SET_COM_PINS": 0xDA,
             "SET_OSC_FREQUENCY": 0xD5,
             "ENABLE_CHARGE_PUMP_REGULATOR": 0x8D,
