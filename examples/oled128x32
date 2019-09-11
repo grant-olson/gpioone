@@ -3,6 +3,7 @@
 from gpioone import *
 
 import random
+import unscii
 
 if __name__ == "__main__":
     ssd = SSD1306()
@@ -13,27 +14,21 @@ if __name__ == "__main__":
 
     print("Testing Print Functions")
     for i in range(0,4):
-        ssd.set_row(i)
-        ssd.set_column(i * 8)
-        
         string = "Page %d." % i
         for j in range(i):
             string += "."
 
 
-        ssd.print_line(string)
+        ssd.print_line(string,row=i,column=i)
 
     sleep(5)
 
     print("TESTING PARTIAL UPDATE")
     ssd.clear_screen()
-    ssd.set_row(2)
-    ssd.set_column(0)
-    ssd.print_line("T Minus 11!")
+    ssd.print_line("T Minus 11!",row=2,column=0)
     for i in range(10):
         sleep(0.1)
-        ssd.set_column(len("T Minus ") * 8)
-        ssd.print_string("%d   " % (10 - i))
+        ssd.print_string("%d   " % (10 - i), row=2, column=len("T Minus "))
 
     ssd.clear_screen()
     print("Random Bytes")
@@ -42,19 +37,37 @@ if __name__ == "__main__":
         for j in range(16):
             ssd.print_bytes(random.sample(range(256),8))
             sleep(0.1)
-                
+
+    print("Normal UNSCII Fonts")
+    for font in unscii.fonts():
+        ssd.set_font(font)
+        if (ssd.unscii.size() == 1) and ssd.unscii.transposed():
+            ssd.print_line("UNSCII Font...",row=0,column=0)
+            ssd.print_line(font.replace("_transposed", "").replace("_", " "),row=1,column=0)
+            ssd.print_line("abcdefghABCDEFGH",row=2,column=0)
+            ssd.print_line("1234567890!@#$%^",row=3,column=0)
+            sleep(5)
+                       
+    print("Double High UNSCII Fonts")
+    for font in unscii.fonts():
+        ssd.set_font(font)
+
+        if (ssd.unscii.size() == 2) and ssd.unscii.transposed():
+            print(font)
+
+            ssd.print_line("UNSCII Font...",row=0,column=0)
+            ssd.print_line(font.replace("_transposed", "").replace("_", " "),row=2,column=0)
+            sleep(5)
+                       
         
     # STILL NEED SOME API WORK
     print("SCROLL TESTS")
+    ssd.set_font("unscii_8_mcr_transposed")
     ssd.clear_screen()
-    ssd.set_row_and_column(0,4*8-4)
-    ssd.print_string("SCROLLING")
-    ssd.set_row_and_column(1,7*8)
-    ssd.print_string("IS")
-    ssd.set_row_and_column(2,6*8+4)
-    ssd.print_string("FUN")
-    ssd.set_row_and_column(3,4*8)
-    ssd.print_string("BUSINESS")
+    ssd.print_string("SCROLLING",row=0,column=4)
+    ssd.print_string("IS",row=1,column=7)
+    ssd.print_string("FUN",row=2,column=8)
+    ssd.print_string("BUSINESS", row=3,column=4)
     ssd.send_command("RIGHT_HORIZONTAL_SCROLL", 0x0, 0x0, 0x0, 0x7, 0x0, 0xff)
     ssd.activate_scroll()
     sleep(3)
