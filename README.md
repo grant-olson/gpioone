@@ -10,7 +10,9 @@ It currently provides interfaces to:
 
 * Three colored RGB Leds.
 * Seven Segement LED displays such as single-element 5161AS and 4-element SH5461AS
-* LCD Displays such as the 1602A
+* LCD Displays:
+    * 1602A
+    * Nokia 5110
 * Shift registers such as 74HC595
 * Analog-to-Digital via the MCP3008/4 chip line. And built on top of the raw ADC, interfaces for:
     * Analog Joysticks

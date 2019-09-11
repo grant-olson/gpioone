@@ -1,3 +1,5 @@
+* PCD8544/Nokia 5110 display support.
+
 * SSD1306 OLED display support.
 
 * Servo interface.

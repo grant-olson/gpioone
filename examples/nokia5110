@@ -1,0 +1,47 @@
+#!/usr/bin/env python
+from gpioone import *
+
+if __name__ == "__main__":
+    GPIO.setmode(GPIO.BCM)
+    s = SetupExample(help="Nokia Display")
+
+    s.rv("DC_PIN","Data/Control Pin")
+    s.rv("RESET_PIN", "Reset Pin")
+
+    s.setup()
+
+
+    nokia = PCD8544(s.DC_PIN,s.RESET_PIN)
+
+    print("INIT DONE")
+    sleep(2)
+    nokia.clear()
+    sleep(1)
+    print("CLEARED SCREEN/WRITING GRID")
+    for i in range(84*48//8):
+        if i % 2:
+            nokia.data_bits(1,0,1,0,1,0,1,0)
+        else: 
+            nokia.data_bits(0,1,0,1,0,1,0,1)
+        sleep(0.01)
+
+    print("WROTE DATA")
+    sleep(2)
+
+    nokia.clear()
+
+
+    nokia.print_line("HELLO")
+    nokia.print_line("    WORLD!")
+    nokia.print_line("AND")
+    nokia.print_line("   GOODBYE")
+    nokia.print_line("abcdefghij")
+    nokia.print_line("0123456789")
+    sleep(2)
+    
+    print("INVERT")
+    nokia.command_bits(0,0,0,0,1,1,0,1) # invert
+    sleep(2)
+
+#    spi.close()
+#
