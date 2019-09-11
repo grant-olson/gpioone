@@ -116,20 +116,34 @@ class SSD1306(I2C):
     def send_data(self, data):
         self.write_byte_data("DATA", data)
 
-    def print_char(self, char, exception_on_unknown=False):
+    def print_char(self, char, half=None, exception_on_unknown=False):
         char_bytes = self.unscii.get_char(char)
+
+        if len(char_bytes) > 8:
+            if half == "TOP":
+                char_bytes = char_bytes[:8]
+            elif half == "BOTTOM":
+                char_bytes = char_bytes[8:]
+            else:
+                raise RuntimeError("Need a half of TOP or BOTTOM for double-height characters")
+            
         for byte in char_bytes:
             self.send_data(byte)
 
 
-    def print_string(self, string, exception_on_unknown=False):
+    def print_string(self, string, row=0, column=0, exception_on_unknown=False):
+        self.set_row_and_column(row,column*8)
         for char in string:
-            self.print_char(char,exception_on_unknown)
+            self.print_char(char,half="TOP",exception_on_unknown=exception_on_unknown)
+        if self.unscii.size() == 2:
+            self.set_row_and_column(row+1,column*8)
+            for char in string:
+                self.print_char(char,half="BOTTOM",exception_on_unknown=exception_on_unknown)
 
-    def print_line(self, string, line_size=16):
-        while len(string) < line_size:
+    def print_line(self, string, row=0, column=0, line_size=16):
+        while (len(string) + column) < line_size:
             string += " "
-        self.print_string(string)
+        self.print_string(string,row=row,column=column)
 
     def print_bytes(self, byte_list):
         for byte in byte_list:
@@ -168,3 +182,6 @@ class SSD1306(I2C):
 
     def deactivate_scroll(self):
         self.send_command("DEACTIVATE_SCROLL")
+
+    def set_font(self, font_name):
+        self.unscii = unscii.unscii(font_name)
