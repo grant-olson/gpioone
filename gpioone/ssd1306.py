@@ -2,18 +2,27 @@ from .i2c import *
 import unscii
 
 class SSD1306(I2C):
-    def __init__(self,device_address=0x3c,font='unscii_8_thin_transposed'):
+    def __init__(self,device_address=0x3c,font='unscii_8_thin_transposed',row_size=32):
         super(SSD1306,self).__init__(device_address)
 
         self.unscii = unscii.unscii(font)
         # Sample initialization from Section 3 of the Application Note Appendix in datasheet.
+
+        self.row_size = row_size
+        self.pages = row_size // 8
         
         self.send_command("SET_MUX_RATIO", 0x3f)
         self.send_command("SET_DISPLAY_OFFSET", 0x00)
         self.send_command("SET_DISPLAY_START_LINE")
         self.send_command("SET_SEGMENT_REMAP_0")
         self.send_command("SET_COM_OUTPUT_SCAN_DIRECTION_INCREMENT")
-        self.send_command("SET_COM_PINS", 0x02)
+        if self.row_size == 32:
+            self.send_command("SET_COM_PINS", 0x02)
+        elif self.row_size == 64:
+            self.send_command("SET_COM_PINS", 0x02 + 16)
+        else:
+            raise RuntimeError("Bad Size")
+        
         self.send_command("SET_CONTRAST", 0x7F)
         self.send_command("ENTIRE_DISPLAY_ON")
         self.send_command("NORMAL_DISPLAY")
@@ -152,7 +161,7 @@ class SSD1306(I2C):
     def clear_screen(self,blank_while_clearing=True):
         if blank_while_clearing:
             self.send_command("ENTIRE_DISPLAY_ON")
-        for i in range(0,8):
+        for i in range(0,self.pages):
             self.send_command("PAGE_%d" % i)
             self.send_command("LOW_NIBBLE_0")
             self.send_command("HIGH_NIBBLE_0")

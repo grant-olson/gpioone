@@ -1,3 +1,5 @@
+* Support for 128x64 and 128x32 OLEDs.
+
 * PCD8544/Nokia 5110 display support.
 
 * SSD1306 OLED display support.
